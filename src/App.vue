@@ -1,18 +1,38 @@
 <template>
     <div class="app">
-        <post-form />
-        <post-list :posts="posts" />
+        <h1>Posts page</h1>
+        <my-button @click="fetchPosts">Get posts</my-button>
+        <my-button
+            @click="showDialog"
+        >
+            Create Post
+        </my-button>
+        <my-dialog v-model:show="dialogVisible">
+            <post-form 
+            @create="createPost"
+            />
+        </my-dialog>
+        <post-list
+        :posts="posts"
+        @remove="removePost"
+        />
     </div>
 </template>
 
 <script>
 import PostForm from '@/components/PostForm.vue';
 import PostList from '@/components/PostList.vue';
+import MyDialog from './components/UI/MyDialog.vue';
+import MyButton from './components/UI/MyButton.vue';
+import axios from "axios";
 
     export default {
         components: {
-            PostForm, PostList
-        },
+    PostForm,
+    PostList,
+    MyDialog,
+    MyButton
+},
         data() {
             return {
                 posts: [
@@ -32,21 +52,28 @@ import PostList from '@/components/PostList.vue';
                         id: 5, title: "Javascript 5", body: "Description 5"
                     },
                 ],
-                title: "",
-                body: ""
+                dialogVisible: false
             }
         },
         methods: {
-            createPost() {
-                const newPost = {
-                    id: Date.now(),
-                    title: this.title,
-                    body: this.body,
-                }
-                this.posts.push(newPost);
-                this.title = "";
-                this.body = "";
+            createPost(post) {
+                this.posts.push(post);
+                this.dialogVisible = false;
             },
+            removePost(post) {
+                this.posts = this.posts.filter(p => p.id !== post.id)
+            },
+            showDialog() {
+                this.dialogVisible = true;
+            },
+            async fetchPosts() {
+                try {
+                    const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+                    console.log(response);
+                } catch (error) {
+                    alert("Error: " + error)
+                }
+            }
             // inputTitle(event) {                  // Для синхронизации инпута с данными. Но использован другой метод этой синхронизации. Чекните сами теги 
             //     this.title = event.target.value;
             // }

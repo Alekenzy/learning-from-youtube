@@ -1,25 +1,22 @@
 <template>
     <form @submit.prevent>
             <h4>Creating post</h4>
-            <input
-                v-bind:value="post.title"
-                @input="post.title = $event.target.value"
-                class="input"
+            <my-input
+                v-model="post.title"
                 type="text"
                 placeholder="Title"
-            >
-            <input
-                v-bind:value="post.body"
-                @input="post.body = $event.target.value"
-                class="input"
+            />
+            <my-input
+                v-model="post.body"
                 type="text"
                 placeholder="Description"
-            >
-            <button
-                class="btn"
+            />
+            <my-button
+                @click="createPost"
+                style="margin-top: 15px"
             >
             Create
-            </button>
+            </my-button>
         </form>
 </template>
 
@@ -31,8 +28,18 @@ export default {
                 title: "",
                 body: "",
             }
+        };
+    },
+    methods: {
+        createPost() {
+            this.post.id = Date.now();
+            this.$emit("create", this.post);
+            this.post = {
+                title: "",
+                body: "",
+            };
         }
-    }
+    },
 }
 </script>
 
@@ -41,38 +48,4 @@ form {
     display: flex;
     flex-direction: column;
 }
-
-.input {
-    width: 100%;
-    border: 1px solid teal;
-    padding: 10px 15px;
-    margin-top: 15px;
-}
-
-.btn {
-    margin-top: 15px;
-    align-self: flex-end;
-    padding: 10px 15px;
-    background: none;
-    color: teal;
-    border: 1px solid teal;
-}
 </style>
-
-<!-- 
-<template>
-    <div>
-    
-    </div>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
- -->
