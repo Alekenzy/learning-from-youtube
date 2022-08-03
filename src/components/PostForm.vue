@@ -40,6 +40,14 @@ export default {
             };
         }
     },
+    // watch: {                                 // глубокое наблюдение: отслеживание каждого изменения
+    //     post: {
+    //         handler(newValue) {
+    //             console.log(newValue);
+    //         },
+    //         deep: true
+    //     },
+    // }
 }
 </script>
 

@@ -1,11 +1,16 @@
 <template>
     <div class="post">
         <div>
+            <div><strong>{{post.id}}</strong></div>
             <div><strong>Title:</strong> {{post.title}}</div>
             <div><strong>Description:</strong> {{post.body}}</div>
         </div>
         <div class="post__btns">
-            <my-button>Edit</my-button>
+            <my-button
+                @click="$emit('log', post)"
+            >
+                toconsole
+            </my-button>
             <my-button
                 @click="$emit('remove', post)"
             >
@@ -17,14 +22,12 @@
 
 <script>
 export default {
-    data() {
-        return {
+    props: {
             post: {
                 type: Object,
                 required: true
             }
         }
-    },
 }
 </script>
 
@@ -39,6 +42,6 @@ export default {
 }
 
 .post__btns {
-
+    display: flex;
 }
 </style>

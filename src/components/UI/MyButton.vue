@@ -12,7 +12,6 @@ export default {
 
 <style scoped>
 .btn {
-    /* margin-top: 15px; */
     margin-left: 10px;
     align-self: flex-end;
     padding: 10px 15px;
