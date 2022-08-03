@@ -1,5 +1,5 @@
 <template>
-    <div v-if="posts.length"> <!-- v-show="posts.length" можно написать и так, но это просто сделает его display: none а не удаляет его с DOM дерева -->
+    <div v-if="posts.length > 0"> <!-- v-show="posts.length" можно написать и так, но это просто сделает его display: none а не удаляет его с DOM дерева -->
         <h3 style="margin-bottom: 10px; margin-top: 10px">Posts List</h3>
         <transition-group name="post-list">
             <PostItem 
@@ -7,7 +7,6 @@
                 :post="post"
                 :key="post.id"
                 @remove="$emit('remove', post)"
-                @log="$emit('log', post)"
             />
         </transition-group>
     </div>

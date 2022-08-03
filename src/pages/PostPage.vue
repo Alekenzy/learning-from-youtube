@@ -3,6 +3,7 @@
         <h1 style="margin-bottom: 10px">Posts page</h1>
         <!-- <my-button @click="fetchPosts">Get posts</my-button>  это для того, чтобы загружать данные с сервера с помощью клика   -->
         <my-input 
+            v-focus
             v-model="searchQuery"
             placeholder="Search..."
         />
@@ -26,11 +27,10 @@
         <post-list
         :posts="sortedAndSearchedPosts"
         @remove="removePost"
-        @log="consoleLog"
         v-if="!isPostsLoading"
         />
         <div v-else>Loading...</div>
-        <div ref="observer" class="observer">
+        <div v-intersection="loadMorePosts" class="observer">
 
         </div>
         <!-- <div class="page__wrapper">
@@ -132,14 +132,6 @@ import MyInput from '@/components/UI/MyInput.vue';
                     alert("Error: " + error)
                 }
             },
-            consoleLog(post) {
-                let obj = {
-                    id: post.id,
-                    title: post.title,
-                    body: post.body
-                }
-                console.log(obj);
-            }
             // inputTitle(event) {                  // Для синхронизации инпута с данными. Но использован другой метод этой синхронизации. Чекните сами теги 
             //     this.title = event.target.value;
             // }
@@ -147,17 +139,20 @@ import MyInput from '@/components/UI/MyInput.vue';
         mounted() {  // для того чтобы делать вещей при загрузке страницы
             this.fetchPosts();   // загружать данные при загрузки страницы
             // console.log(this.$refs.observer); // возвращает сам DOM элемент с помощью ref
-            const options = {
-                rootMargin: '0px',
-                threshold: 1.0
-            }
-            const callback = (entries) => {
-                if(entries[0].isIntersecting && this.page < this.totalPages) {
-                    this.loadMorePosts();
-                }
-            };
-            const observer = new IntersectionObserver(callback, options);
-            observer.observe(this.$refs.observer);
+
+            //////////////////////////////////////////////////////////////////////////////
+            // const options = {                                                        //
+            //     rootMargin: '0px',                                                   //
+            //     threshold: 1.0                                                       //
+            // }                                                                        //
+            // const callback = (entries, observer) => {                                          //
+            //     if(entries[0].isIntersecting && this.page < this.totalPages) {       // // Этот код стоит в директиве VIntersection и он отвечает за это действие
+            //         this.loadMorePosts();                                            //
+            //     }                                                                    //
+            // };                                                                       //
+            // const observer = new IntersectionObserver(callback, options);            //
+            // observer.observe(this.$refs.observer);                                   //
+            //////////////////////////////////////////////////////////////////////////////
             
         },
         computed: {

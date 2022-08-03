@@ -7,14 +7,14 @@
         </div>
         <div class="post__btns">
             <my-button
-                @click="$emit('log', post)"
+                @click="$router.push(`/posts/${post.id}`)"
             >
-                toconsole
+                Open
             </my-button>
             <my-button
                 @click="$emit('remove', post)"
             >
-            Delete
+                Delete
             </my-button>
         </div>
     </div>
