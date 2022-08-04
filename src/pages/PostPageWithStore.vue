@@ -11,11 +11,12 @@
 
         <hr style="margin: 30px 0">
         <h1 style="margin-bottom: 10px">Posts page</h1>
-        <!-- <my-input 
+        <my-input 
             v-focus
-            v-model="searchQuery"
+            :model-value="searchQuery"
+            @update:model-value="setSearchQuery"
             placeholder="Search..."
-        /> -->
+        />
         <div class="app__btns">
             <my-button
                 @click="showDialog"
@@ -23,10 +24,11 @@
             >
                 Create Post
             </my-button>
-            <!-- <my-select 
-                v-model="selectedSort"
+            <my-select 
+                :model-value="selectedSort"
+                @update:model-value="setSelectedSort"
                 :options="sortOptions"
-            /> -->
+            />
         </div>
         <my-dialog v-model:show="dialogVisible">
             <post-form 
